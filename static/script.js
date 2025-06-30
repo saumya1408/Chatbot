@@ -13,8 +13,18 @@ async function sendPrompt(text) {
         const response = await fetch('/generate', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ text, max_length: 100, temperature: 0.7 })
+            body: JSON.stringify({ text, max_length: 20, temperature: 0.7 })
         });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const contentType = response.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+            throw new Error('Response is not valid JSON');
+        }
+
         const data = await response.json();
 
         if (data.error) {
