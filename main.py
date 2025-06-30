@@ -160,8 +160,7 @@
 
 from flask import Flask, render_template, request, jsonify
 import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
-from peft import PeftModel
+from transformers import AutoModelForCausalLM, AutoTokenizer
 import os
 import logging
 
@@ -192,17 +191,13 @@ try:
     tokenizer = AutoTokenizer.from_pretrained(model_path)
     logger.info("Tokenizer loaded successfully")
     
-    quantization_config = BitsAndBytesConfig(load_in_8bit=True)
-    logger.info(f"Loading model from {model_path} with 8-bit quantization")
+    logger.info(f"Loading model from {model_path}")
     base_model = AutoModelForCausalLM.from_pretrained(
         model_path,
         device_map="auto",
         torch_dtype=torch.float32,
-        quantization_config=None,
     )
-    # Optional: Load LoRA weights if needed
-    # model = PeftModel.from_pretrained(base_model, "configs")
-    model = base_model  # Comment out if using LoRA
+    model = base_model
     logger.info("Model loaded successfully")
 except Exception as e:
     logger.error(f"Error loading model or tokenizer: {e}")
@@ -217,7 +212,7 @@ def generate():
     try:
         data = request.get_json()
         prompt = data.get("text", "").strip()
-        max_length = data.get("max_length", 50)  # Reduced for CPU performance
+        max_length = data.get("max_length", 30)  # Reduced for memory
         temperature = data.get("temperature", 0.7)
 
         if not prompt:
