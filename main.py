@@ -185,7 +185,7 @@ device = "cpu"
 logger.info(f"Using device: {device}")
 
 # Load model and tokenizer
-model_path = "Qwen/Qwen2-1.5B"  # Smaller model
+model_path = "Qwen/Qwen2-1.5B"
 try:
     logger.info(f"Loading tokenizer from {model_path}")
     tokenizer = AutoTokenizer.from_pretrained(model_path)
@@ -196,6 +196,7 @@ try:
         model_path,
         device_map="auto",
         torch_dtype=torch.float32,
+        low_cpu_mem_usage=True,
     )
     model = base_model
     logger.info("Model loaded successfully")
@@ -212,7 +213,7 @@ def generate():
     try:
         data = request.get_json()
         prompt = data.get("text", "").strip()
-        max_length = data.get("max_length", 20)  # Reduced for memory
+        max_length = data.get("max_length", 15)  # Further reduced
         temperature = data.get("temperature", 0.7)
 
         if not prompt:
@@ -222,7 +223,7 @@ def generate():
         inputs = tokenizer(prompt, return_tensors="pt").to(device)
         outputs = model.generate(
             **inputs,
-            max_length=max_length,
+            max_new_tokens=max_length,  # Explicitly set
             temperature=temperature,
             do_sample=True,
             pad_token_id=tokenizer.pad_token_id,
