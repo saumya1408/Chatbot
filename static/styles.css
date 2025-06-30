@@ -1,0 +1,20 @@
+#chat-container {
+    scroll-behavior: smooth;
+}
+
+.message {
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+}
+
+.user-message {
+    background-color: #e3f2fd;
+    margin-left: 2rem;
+    text-align: right;
+}
+
+.bot-message {
+    background-color: #f1f1f1;
+    margin-right: 2rem;
+}
