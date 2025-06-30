@@ -185,7 +185,7 @@ device = "cpu"
 logger.info(f"Using device: {device}")
 
 # Load model and tokenizer
-model_path = "ns7552/merged-model"  # Fallback: "Qwen/Qwen2-1.5B"
+model_path = "Qwen/Qwen2-1.5B"  # Smaller model
 try:
     logger.info(f"Loading tokenizer from {model_path}")
     tokenizer = AutoTokenizer.from_pretrained(model_path)
@@ -212,7 +212,7 @@ def generate():
     try:
         data = request.get_json()
         prompt = data.get("text", "").strip()
-        max_length = data.get("max_length", 30)  # Reduced for memory
+        max_length = data.get("max_length", 20)  # Reduced for memory
         temperature = data.get("temperature", 0.7)
 
         if not prompt:
