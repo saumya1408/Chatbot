@@ -13,7 +13,7 @@ async function sendPrompt(text) {
         const response = await fetch('/generate', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ text, max_length: 10, temperature: 0.7 })
+            body: JSON.stringify({ text, max_length: 5, temperature: 0.7 })
         });
 
         if (!response.ok) {
