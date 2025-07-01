@@ -195,7 +195,7 @@ try:
     base_model = AutoModelForCausalLM.from_pretrained(
         model_path,
         device_map="auto",
-        torch_dtype=torch.float32,
+        torch_dtype=torch.bfloat16,  # Reduced memory
         low_cpu_mem_usage=True,
     )
     model = base_model
@@ -213,7 +213,7 @@ def generate():
     try:
         data = request.get_json()
         prompt = data.get("text", "").strip()
-        max_length = data.get("max_length", 15)  # Further reduced
+        max_length = data.get("max_length", 10)  # Further reduced
         temperature = data.get("temperature", 0.7)
 
         if not prompt:
@@ -225,7 +225,7 @@ def generate():
             **inputs,
             max_new_tokens=max_length,  # Explicitly set
             temperature=temperature,
-            do_sample=True,
+            do_sample=False,  # Disable sampling for speed
             pad_token_id=tokenizer.pad_token_id,
             eos_token_id=tokenizer.eos_token_id,
         )
