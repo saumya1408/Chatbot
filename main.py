@@ -185,7 +185,7 @@ device = "cpu"
 logger.info(f"Using device: {device}")
 
 # Load model and tokenizer
-model_path = "Qwen/Qwen2-1.5B"
+model_path = "Qwen/Qwen2-0.5B"  # Smaller model
 try:
     logger.info(f"Loading tokenizer from {model_path}")
     tokenizer = AutoTokenizer.from_pretrained(model_path)
@@ -195,7 +195,7 @@ try:
     base_model = AutoModelForCausalLM.from_pretrained(
         model_path,
         device_map="auto",
-        torch_dtype=torch.bfloat16,  # Reduced memory
+        torch_dtype=torch.bfloat16,
         low_cpu_mem_usage=True,
     )
     model = base_model
@@ -213,7 +213,7 @@ def generate():
     try:
         data = request.get_json()
         prompt = data.get("text", "").strip()
-        max_length = data.get("max_length", 10)  # Further reduced
+        max_length = data.get("max_length", 5)  # Minimal length
         temperature = data.get("temperature", 0.7)
 
         if not prompt:
@@ -223,9 +223,9 @@ def generate():
         inputs = tokenizer(prompt, return_tensors="pt").to(device)
         outputs = model.generate(
             **inputs,
-            max_new_tokens=max_length,  # Explicitly set
+            max_new_tokens=max_length,
             temperature=temperature,
-            do_sample=False,  # Disable sampling for speed
+            do_sample=False,
             pad_token_id=tokenizer.pad_token_id,
             eos_token_id=tokenizer.eos_token_id,
         )
