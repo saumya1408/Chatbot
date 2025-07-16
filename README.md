@@ -115,12 +115,10 @@ Response:
 ## 📈 Architecture Diagram (Mermaid)
 ```mermaid
 flowchart TD
-    subgraph Client
-        A[Browser] -->|HTTP| B[Flask '/' route]
-    end
+    A[Browser] -->|HTTP| B[Flask route]
     B --> C{{Generate API}}
     C --> D[Tokenizer]
-    D --> E[Qwen-1.5 (GPU)]
+    D --> E[Qwen-1.5 GPU]
     E --> F[Decoder]
     F -->|JSON| A
 ```
