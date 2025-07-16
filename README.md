@@ -6,6 +6,11 @@
 ---
 
 ## ✨ Overview
+
+![WebApp Screenshot](https://drive.google.com/uc?export=view&id=1oiBOfWYzcCDswzDKJhPglqpExGD3tzUv)
+
+[![Watch Demo](https://img.shields.io/badge/▶%20Watch%20Demo-red?style=for-the-badge&logo=youtube&logoColor=white)](https://drive.google.com/file/d/1oiBOfWYzcCDswzDKJhPglqpExGD3tzUv/view?usp=sharing)
+
 A full-stack chatbot application built with **Flask** & **Hugging Face Transformers** on the backend and vanilla **HTML/CSS/JS** on the frontend.  
 The goal is to provide an easily deployable, GPU-friendly micro-service that can be dropped into any project or used as a reference for fine-tuning & serving small LLMs.
 
